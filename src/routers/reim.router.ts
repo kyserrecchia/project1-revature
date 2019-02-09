@@ -1,16 +1,17 @@
 import express from 'express';
 import { authMiddleware } from '../middleware/auth.middleware';
-import { srcDir } from '../../app';
 import { ReimDao } from '../dao/reim.dao';
 
 export const reimRouter = express.Router();
+
+
+const reim = new(ReimDao);
 
 // /users - find all
 reimRouter.get('', [
     authMiddleware,
     async (req, res) => {
         try {
-            const reim = new(ReimDao);
             const reims = await reim.findAll();
             res.json(reims);
         } catch (err) {
@@ -25,7 +26,6 @@ reimRouter.get('/status/:reimStatus', [
     authMiddleware,
     async (req, res) => {
         try {
-            const reim = new(ReimDao);
             const reims = await reim.findByStatus(+req.params.reimStatus);
             res.json(reims);
         } catch (err) {
@@ -40,10 +40,9 @@ reimRouter.get('/status/:reimStatus', [
 reimRouter.get('/author/userId/:userId', async (req, res) => {
         try {
             const thisUser = req.session.user;
-            const reim = new(ReimDao);
             const reimsByAuthor = await reim.findByAuthor(+req.params.userId);
             if (thisUser.userId === +req.params.userId ||
-                thisUser.role === ('Admin' || 'Finance-Manager')) {
+                (thisUser.role === 'Admin') || (thisUser.role === 'Finance-Manager')) {
                console.log(reimsByAuthor);
                res.json(reimsByAuthor);
            } else {
@@ -55,10 +54,25 @@ reimRouter.get('/author/userId/:userId', async (req, res) => {
 });
 
 //////////////////////////////////////////
-reimRouter.post('/submit', (req, res) => {
-    const reim = new(ReimDao);
-    reim.submit(req.session.user.userId, req.body.amount,
+reimRouter.post('/submit', async (req, res) => {
+    await reim.submit(req.session.user.userId, req.body.amount,
         req.body.description, req.body.type);
-    res.redirect('/reimbursements');
+    const reims = await reim.findAll();
+    res.json(reims);
 });
+
+////////////////////////////////////////////////
+// PATCH
+reimRouter.patch('', [
+    authMiddleware,
+    async (req, res) => {
+        try {
+            // console.log(req.body);
+            const thisReim = await reim.update(req.body);
+            res.json(thisReim);
+        } catch (err) {
+            res.sendStatus(500);
+        }
+    }
+]);
 

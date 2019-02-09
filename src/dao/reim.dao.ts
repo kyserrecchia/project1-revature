@@ -143,7 +143,7 @@ export class ReimDao {
             VALUES  (
                 ${author}, ${+amount}, ${Math.round((new Date()).getTime() / 1000)}, 0,
                 '${description}', 4, 1, ${type});`;
-        console.log(text);
+        // console.log(text);
         try {
             const result = await client.query(text);
         } catch (err) {
@@ -152,6 +152,44 @@ export class ReimDao {
             client.release(); // release connection
         }
     }
+
+
+    async update(reqbody) {
+        const client = await connectionPool.connect();
+        const querySQL = `UPDATE reimbursement set
+                dateresolved = $1, "type" = $2
+                WHERE reimbursementid = $3 returning *;`;
+        const querySQLParams = [reqbody.dateresolved, reqbody.type, reqbody.reimbursementid];
+
+        // TODO
+        // instead, query for userbyid and insert old values if any new value null - put inside try below
+        // make sure no values are null
+        let hasNull = false;
+        Object.values(reqbody).map(val => {
+            if (val === null) {
+                hasNull = true;
+            }
+        });
+
+        if (!hasNull) {
+            try {
+                const result = await client.query(querySQL, querySQLParams);
+                if (result.rows[0]) {
+                    const reim = result.rows[0];
+                    return ({
+                        ...reim,
+                        dateResolved: reqbody.dateresolved,
+                        type: reqbody.type
+                    });
+                }
+            } catch (err) {
+                console.log(err.stack);
+            } finally {
+                client.release(); // release connection
+            }
+        }
+    }
+
 }
 
 

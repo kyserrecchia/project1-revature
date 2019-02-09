@@ -129,7 +129,9 @@ export class UserDao {
                 firstname = $2, lastname = $3,
                 email = $4, "role" = $5
                 WHERE userid = $6 returning *;`;
-        const querySQLParams = [reqbody.username, reqbody.firstName, reqbody.lastName, reqbody.email, reqbody.role, reqbody.userId];
+        const querySQLParams = [reqbody.username, reqbody.firstname,
+                                reqbody.lastname, reqbody.email,
+                                reqbody.role, reqbody.userid];
 
         // TODO
         // instead, query for userbyid and insert old values if any new value null - put inside try below
@@ -151,7 +153,7 @@ export class UserDao {
                         username: user.username,
                         password: '',
                         firstName: user.firstname,
-                        lastName: user.lastame,
+                        lastName: user.lastname,
                         email: user.email,
                         role: user.role
                     });

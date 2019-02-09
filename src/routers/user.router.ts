@@ -44,10 +44,10 @@ userRouter.get('/:userId', async (req, res) => {
             const thisUser = req.session.user;
             const userById = await user.findById(+req.params.userId);
             if (thisUser.username === userById.username ||
-                 thisUser.role === ('Admin' || 'Finance-Manager')) {
+                 (thisUser.role === 'Admin') || (thisUser.role === 'Finance-Manager')) {
                 res.json(userById);
             } else {
-                res.sendStatus(500);
+                res.sendStatus(401);
             }
         } catch (err) {
             res.sendStatus(500);
@@ -61,6 +61,7 @@ userRouter.patch('', [
     authAdminMiddleware,
     async (req, res) => {
         try {
+            console.log(req.body);
             const userData = await user.update(req.body);
             res.json(userData);
         } catch (err) {

@@ -1,8 +1,10 @@
 import express from 'express';
 import { UserDao } from '../dao/user.dao';
 import { srcDir } from '../../app';
+import { URLSearchParams } from 'url';
 
 export const authRouter = express.Router();
+const user = new(UserDao);
 
 // post for log in  ********
 // TODO
@@ -10,26 +12,40 @@ export const authRouter = express.Router();
 // add assigning role
 authRouter.post('/login', async (req, res) => {
 
-    let thisUser;
-
+    let users;
     try {
-        const user = new(UserDao);
-        thisUser = await user.findByUsername(req.body.username);
+        users = await user.findAll();
     } catch (err) {
         res.sendStatus(500);
     }
 
     let isUser = false;
 
-    if ((thisUser.username === req.body.username) && (thisUser.password === req.body.password)) {
-        isUser = true;
-        req.session.user = thisUser;
-        res.json({
-            ...thisUser,
-            password: '',
-        });
-    }
-    if (!isUser) {
+    users.map(eachUser => {
+        if (eachUser.username === req.body.username) {
+            isUser = true;
+        }
+    });
+
+    let thisUser;
+
+    if (isUser) {
+        try {
+            thisUser = await user.findByUsername(req.body.username);
+            if ((thisUser.username === req.body.username) && (thisUser.password === req.body.password)) {
+                isUser = true;
+                if (isUser) {
+                    req.session.user = thisUser;
+                    res.json({
+                        ...thisUser,
+                        password: '',
+                    });
+                }
+            }
+        } catch (err) {
+            res.sendStatus(500);
+        }
+    } else {
         res.sendStatus(401);
     }
 });
