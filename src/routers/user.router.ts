@@ -41,8 +41,14 @@ userRouter.get('/roles', [
 // GOOD *****
 userRouter.get('/:userId', async (req, res) => {
         try {
-            const users = await user.findById(+req.params.userId);
-            res.json(users);
+            const thisUser = req.session.user;
+            const userById = await user.findById(+req.params.userId);
+            if (thisUser.username === userById.username ||
+                 thisUser.role === ('Admin' || 'Finance-Manager')) {
+                res.json(userById);
+            } else {
+                res.sendStatus(500);
+            }
         } catch (err) {
             res.sendStatus(500);
         }

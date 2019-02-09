@@ -21,12 +21,12 @@ reimRouter.get('', [
 
 ///////////////////////////////////////////////////
 // By status
-reimRouter.get('/:reimbursementId', [
+reimRouter.get('/status/:reimStatus', [
     authMiddleware,
     async (req, res) => {
         try {
             const reim = new(ReimDao);
-            const reims = await reim.findById(+req.params.reimbursementId);
+            const reims = await reim.findByStatus(+req.params.reimStatus);
             res.json(reims);
         } catch (err) {
             res.sendStatus(500);
@@ -37,34 +37,26 @@ reimRouter.get('/:reimbursementId', [
 
 //////////////////////////////////////////////////////////
 // By author
-
-reimRouter.get('/author/byuserId/:userId', [
-    authMiddleware,
-    async (req, res) => {
+reimRouter.get('/author/userId/:userId', async (req, res) => {
         try {
+            const thisUser = req.session.user;
             const reim = new(ReimDao);
-            const reims = await reim.findByAuthor(+req.params.userId);
-            res.json(reims);
+            const reimsByAuthor = await reim.findByAuthor(+req.params.userId);
+            if (thisUser.userId === +req.params.userId ||
+                thisUser.role === ('Admin' || 'Finance-Manager')) {
+               console.log(reimsByAuthor);
+               res.json(reimsByAuthor);
+           } else {
+               res.sendStatus(401);
+           }
         } catch (err) {
             res.sendStatus(500);
         }
-    }
-]);
-
-reimRouter.get('/author/userId/:userId', (req, res) => {
-    res.sendFile(`${srcDir}/views/reimAuthor.html`);
 });
-
 
 //////////////////////////////////////////
-reimRouter.get('/submit', (req, res) => {
-    res.sendFile(`${srcDir}/views/reimSubmit.html`);
-});
-
-
 reimRouter.post('/submit', (req, res) => {
     const reim = new(ReimDao);
-    console.log(req.session);
     reim.submit(req.session.user.userId, req.body.amount,
         req.body.description, req.body.type);
     res.redirect('/reimbursements');
