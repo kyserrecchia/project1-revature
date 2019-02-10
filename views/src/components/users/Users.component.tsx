@@ -1,13 +1,13 @@
 import React from 'react';
 
-export class FirstComponent extends React.Component {
+export class UsersComponent extends React.Component {
 
   render() {
     return (
       <div>
-        Frist Component
+        Users Component
       </div>
-    )
+    );
   }
 
 }

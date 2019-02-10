@@ -20,26 +20,22 @@ export class NavComponent extends React.Component {
                         <Link to='/home' className='unset-anchor nav-link'>Home</Link>
                     </li>
                     <li className='nav-item active'>
-                        <Link to='/sign-in' className='unset-anchor nav-link'>Sign In</Link>
-                    </li>
-                    <li className='nav-item active'>
-                        <Link to='/first' className='unset-anchor nav-link'>First</Link>
-                    </li>
-                    <li className='nav-item active'>
-                        <Link to='/second' className='unset-anchor nav-link'>Second</Link>
-                    </li>
-                    <li className='nav-item active'>
-                        <Link to='/clicker' className='unset-anchor nav-link'>Clicker</Link>
+                        <Link to='/profile' className='unset-anchor nav-link'>Profile</Link>
                     </li>
                     <li className='nav-item active dropdown'>
-                        <a className='nav-link dropdown-toggle pointer' id='examples-dropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Examples</a>
+                        <a className='nav-link dropdown-toggle pointer' id='examples-dropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Reimbursements</a>
                         <div className='dropdown-menu' aria-labelledby='examples-dropdown'>
-                            <div className='dropdown-item'><Link to='/movies' className='unset-anchor nav-link active'>Movies</Link></div>
-                            <div className='dropdown-item'><Link to='/clicker' className='unset-anchor nav-link active'>Clicker Game</Link></div>
-                            <div className='dropdown-item'><Link to='/tic-tac-toe' className='unset-anchor nav-link active'>Tic Tac Toe Game</Link></div>
-                            <div className='dropdown-item'><Link to='/chuck-norris' className='unset-anchor nav-link active'>Chuck Norris Jokes</Link></div>
-                            <div className='dropdown-item'><Link to='/pokemon' className='unset-anchor nav-link active'>Pokemon</Link></div>
+                            <div className='dropdown-item'><Link to='/my' className='unset-anchor nav-link active'>My Reimbursements</Link></div>
+                            <div className='dropdown-item'><Link to='/submit' className='unset-anchor nav-link active'>Submit</Link></div>
+                            <div className='dropdown-item'><Link to='/by-status' className='unset-anchor nav-link active'>By Status</Link></div>
+                            <div className='dropdown-item'><Link to='/by-user' className='unset-anchor nav-link active'>By User</Link></div>
                         </div>
+                    </li>
+                    <li className='nav-item active'>
+                        <Link to='/users' className='unset-anchor nav-link'>Users</Link>
+                    </li>
+                    <li className='nav-item active'>
+                        <Link to='/logout' className='unset-anchor nav-link'>Logout</Link>
                     </li>
                 </ul>
             </div>
