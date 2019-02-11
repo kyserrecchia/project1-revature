@@ -4,7 +4,6 @@ import './include/Bootstrap';
 import { NavComponent } from './components/nav/Nav.component';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { SignInComponent } from './components/sign-in/SignIn.component';
-import { HomeComponent } from './components/home/Home.component';
 import { ProfileComponent } from './components/profile/Profile.component';
 import { ReimComponent } from './components/reim/Reim.component';
     import { MyReimComponent } from './components/myReim/myReim.component';
@@ -12,6 +11,7 @@ import { ReimComponent } from './components/reim/Reim.component';
     import { ReimUserComponent } from './components/reimUser/ReimUser.component';
     import { SubmitReimComponent } from './components/submitReim/SubmitReim.component';
 import { UsersComponent } from './components/users/Users.component';
+import { url } from 'inspector';
 
 class App extends Component {
   render() {
@@ -20,7 +20,6 @@ class App extends Component {
             <div>
                 <NavComponent />
                 <div id='app-content-container' className='black-border'>
-                    <Route path='/home' component={HomeComponent} />
                     <Route path='/sign-in' component={SignInComponent} />
                     <Route path='/profile' component={ProfileComponent} />
                     <Route path='/reim' component={ReimComponent} />

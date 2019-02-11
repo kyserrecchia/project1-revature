@@ -1,5 +1,5 @@
 const dev = {
-  pokeContext: 'http://localhost:3000'
+  pokeContext: 'http://localhost:3001'
 }
 
 const prod = {

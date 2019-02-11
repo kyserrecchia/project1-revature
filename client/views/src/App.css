@@ -77,10 +77,11 @@ nav {
   -moz-box-shadow: 1px -12px 28px -1px rgba(0, 0, 0, 0.87);
   box-shadow: 1px -12px 28px -1px rgba(0, 0, 0, 0.87);
   font-family: "Arial Black" "Arial Bold", Gadget, sans-serif; 
-  font-size: 1em; 
+  font-size: 1.1em; 
   font-style: normal; 
   font-variant: normal; 
   font-weight: 700;
+  padding-top: 20px;
 }
 
 #examples-dropdown {
@@ -89,6 +90,15 @@ nav {
 
 .border-black {
     border: black;
+}
+
+#nav-brand {
+    color: #0271CF;
+    font-size: 1.2em;
+}
+
+ul a:hover { 
+    color: #0271CF !important; 
 }
 
 
