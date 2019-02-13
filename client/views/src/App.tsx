@@ -20,7 +20,7 @@ class App extends Component<any, any> {
     
         this.state = {
             loggedIn: false,
-            username: null,
+            username: 'Jerry Garcia',
             password: null, 
             role: null
         }
@@ -45,7 +45,7 @@ class App extends Component<any, any> {
                     <NavComponent  state={this.state}/>
                     <div id='app-content-container'>
                         <Route path='/sign-in' render={(props) => <SignInComponent {...props} login={this.login}/>} />
-                        <Route path='/profile' component={ProfileComponent} />
+                        <Route path='/profile' render={(props) => <ProfileComponent {...props} state={this.state}/>} />
                         <Route path='/reim' component={ReimComponent} />
                         <Route path='/users' component={UsersComponent} />
                         <Route path='/my' component={MyReimComponent} />

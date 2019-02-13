@@ -48,7 +48,7 @@ export class SignInComponent extends React.Component<any, any> {
         event.preventDefault(); // prevent default form submission
         try {
             const res = await empClient.post('/login', this.state.credentials);
-            console.log(res);
+            // console.log(res);
             let { role } = res.data;
             let { username, password } = this.state.credentials;
             this.props.login(username, password, role);

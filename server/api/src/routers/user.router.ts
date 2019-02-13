@@ -54,6 +54,21 @@ userRouter.get('/:userId', async (req, res) => {
         }
 });
 
+userRouter.get('/name/:username', async (req, res) => {
+    try {
+        const thisUser = req.session.user;
+        const userById = await user.findByUsername(req.params.username);
+        if (thisUser.username === userById.username ||
+             (thisUser.role === 'Admin') || (thisUser.role === 'Finance-Manager')) {
+            res.json(userById);
+        } else {
+            res.sendStatus(401);
+        }
+    } catch (err) {
+        res.sendStatus(500);
+    }
+});
+
 ////////////////////////////////////////////////////
 
 // PATCH
