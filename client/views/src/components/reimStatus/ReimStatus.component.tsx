@@ -1,4 +1,5 @@
 import React from 'react';
+import { empClient } from '../../axios/emp.client';
 
 export class ReimStatusComponent extends React.Component<any, any> {
 
@@ -11,8 +12,6 @@ export class ReimStatusComponent extends React.Component<any, any> {
                     <tr>
                         <th>Id #</th>
                         <th>Username</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
                         <th>Date Submitted</th>
                         <th>Date Resolved</th>
                         <th>Amount</th>
@@ -23,45 +22,21 @@ export class ReimStatusComponent extends React.Component<any, any> {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                { this.props.reims.map(reim => { 
+                        return <tr key={reim.reimbursementId}>{
+                            <>
+                            <th scope="row">{reim.reimbursementId}</th>
+                            <td>{reim.author}</td> 
+                            <td>{reim.dateSubmitted}</td>
+                            <td>{reim.dateResolved}</td>
+                            <td>{reim.amount}</td>
+                            <td>{reim.description}</td>
+                            <td>{reim.type}</td>
+                            <td>{reim.status}</td>
+                            <td>{reim.resolver}</td>
+                            </>
+                        }</tr>
+                    })}
                 </tbody>
             </table>
       </div>

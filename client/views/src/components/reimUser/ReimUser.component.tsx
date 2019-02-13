@@ -12,11 +12,12 @@ export class ReimUserComponent extends React.Component<any, any> {
     }
 
     getReimbursements = async () => {
-        const { userId } = this.props.state;
         try {
-            const res = await empClient('/reimbursements/author/userId/' + userId);
+            const res = await empClient('/reimbursements');
             console.log(res);
-
+            this.setState({
+                reimbursements: res.data
+            });
         } catch(err) {
             console.log(err);
         }
@@ -35,8 +36,6 @@ export class ReimUserComponent extends React.Component<any, any> {
                         <tr>
                             <th>Id #</th>
                             <th>Username</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
                             <th>Date Submitted</th>
                             <th>Date Resolved</th>
                             <th>Amount</th>
@@ -47,45 +46,21 @@ export class ReimUserComponent extends React.Component<any, any> {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                    {this.state.reimbursements.map(reim => { 
+                        return <tr key={reim.reimbursementId}>{
+                            <>
+                            <th scope="row">{reim.reimbursementId}</th>
+                            <td>{reim.author}</td> 
+                            <td>{reim.dateSubmitted}</td>
+                            <td>{reim.dateResolved}</td>
+                            <td>{reim.amount}</td>
+                            <td>{reim.description}</td>
+                            <td>{reim.type}</td>
+                            <td>{reim.status}</td>
+                            <td>{reim.resolver}</td>
+                            </>
+                        }</tr>
+                    })}
                     </tbody>
                 </table>
             </div>

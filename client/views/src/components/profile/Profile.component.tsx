@@ -16,7 +16,7 @@ export class ProfileComponent extends React.Component<any, any> {
 
     showProfile = async () => {
         try {
-            const res = await empClient.get('/users/name/' + this.state.username);
+            const res = await empClient('/users/name/' + this.state.username);
             console.log(res.data);
             const { userId, firstName, lastName, email} = res.data;
             this.setState({
