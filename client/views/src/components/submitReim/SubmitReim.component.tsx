@@ -1,6 +1,7 @@
 import React from 'react';
+import { any } from 'prop-types';
 
-export class SubmitReimComponent extends React.Component {
+export class SubmitReimComponent extends React.Component<any, any> {
 
   render() {
     return (

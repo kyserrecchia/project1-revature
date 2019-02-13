@@ -1,6 +1,6 @@
 import React from 'react';
 
-export class ReimStatusComponent extends React.Component {
+export class ReimStatusComponent extends React.Component<any, any> {
 
   render() {
     return (

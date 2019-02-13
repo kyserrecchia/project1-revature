@@ -1,7 +1,33 @@
 import React from 'react';
 // import './include/Bootstrap';
+import { empClient } from '../../axios/emp.client';
 
-export class MyReimComponent extends React.Component {
+export class MyReimComponent extends React.Component<any, any> {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            userId: this.props.state.id,
+            reimbursements: []
+        };
+    }
+
+    getReimbursements = async () => {
+        const { userId } = this.props.state;
+        try {
+            const res = await empClient.get('/reimbursements/author/userId/' + this.state.userId);
+            // console.log(res.data);
+            this.setState({
+                reimbursements: res.data
+            });
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
+    componentDidMount() {
+        this.getReimbursements();
+    }
 
   render() {
     return (
@@ -21,36 +47,20 @@ export class MyReimComponent extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    { this.state.reimbursements.map(reim => { 
+                        return <tr key={reim.reimbursementId}>{
+                            <>
+                            <th scope="row">{reim.reimbursementId}</th>
+                            <td>{reim.dateSubmitted}</td>
+                            <td>{reim.dateResolved}</td>
+                            <td>{reim.amount}</td>
+                            <td>{reim.description}</td>
+                            <td>{reim.type}</td>
+                            <td>{reim.status}</td>
+                            <td>{reim.resolver}</td>
+                            </>
+                        }</tr>
+                    })}
                 </tbody>
             </table>
         </div>

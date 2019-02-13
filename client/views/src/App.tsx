@@ -20,15 +20,17 @@ class App extends Component<any, any> {
     
         this.state = {
             loggedIn: false,
+            id: null,
             username: 'Jerry Garcia',
             password: null, 
             role: null
         }
     }
 
-    login = (username, password, role) => {
+    login = (id, username, password, role) => {
         this.setState({
             loggedIn: true,
+            id,
             username,
             password,
             role
@@ -41,17 +43,17 @@ class App extends Component<any, any> {
         return (
             <div className='background'>
             <BrowserRouter>
-                <div>
+                <div> 
                     <NavComponent  state={this.state}/>
                     <div id='app-content-container'>
                         <Route path='/sign-in' render={(props) => <SignInComponent {...props} login={this.login}/>} />
                         <Route path='/profile' render={(props) => <ProfileComponent {...props} state={this.state}/>} />
-                        <Route path='/reim' component={ReimComponent} />
-                        <Route path='/users' component={UsersComponent} />
-                        <Route path='/my' component={MyReimComponent} />
-                        <Route path='/by-status' component={ReimStatusComponent} />
-                        <Route path='/by-user' component={ReimUserComponent} />
-                        <Route path='/submit' component={SubmitReimComponent} />
+                        <Route path='/reim' render={(props) => <ReimComponent {...props} state={this.state}/>} />
+                        <Route path='/users' render={(props) => <UsersComponent {...props} state={this.state}/>} />
+                        <Route path='/my' render={(props) => <MyReimComponent {...props} state={this.state}/>} />
+                        <Route path='/by-status' render={(props) => <ReimStatusComponent {...props} state={this.state}/>} />
+                        <Route path='/by-user' render={(props) => <ReimUserComponent {...props} state={this.state}/>} />
+                        <Route path='/submit' render={(props) => <SubmitReimComponent {...props} state={this.state}/>} />
                     </div>
                 </div>
             </BrowserRouter>

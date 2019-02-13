@@ -111,7 +111,16 @@ export class ReimDao {
         const client = await connectionPool.connect();
         try {
             const result = await client.query(
-                'SELECT * FROM reimbursement WHERE author = $1',
+                `SELECT reimbursementid, author, authorname.username as authorname,
+                    resolvername.username as resolver, amount, datesubmitted, dateresolved,
+                    description, statusid, reimbursementstatus.status ,reimbursement."type",
+                    reimbursementtype."type"
+                FROM reimbursement
+                    left join reimbursementtype on reimbursement."type" = reimbursementtype.typeid
+                    left join reimbursementstatus on reimbursement.status = reimbursementstatus.statusid
+                    left join "user"as authorname  on reimbursement.author = authorname.userid
+                    left join"user" as resolvername on reimbursement.resolver = resolvername.userid
+                WHERE author = $1;`,
                 [author]
             );
             return result.rows.map(reim => {

@@ -1,6 +1,7 @@
 import React from 'react';
+import { any } from 'prop-types';
 
-export class UsersComponent extends React.Component {
+export class UsersComponent extends React.Component<any, any> {
 
   render() {
     return (

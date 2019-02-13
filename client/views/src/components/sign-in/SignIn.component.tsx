@@ -49,9 +49,9 @@ export class SignInComponent extends React.Component<any, any> {
         try {
             const res = await empClient.post('/login', this.state.credentials);
             // console.log(res);
-            let { role } = res.data;
+            let { userId, role } = res.data;
             let { username, password } = this.state.credentials;
-            this.props.login(username, password, role);
+            this.props.login(userId, username, password, role);
             this.props.history.push('/');
         } catch (err) {
             console.log(err);
