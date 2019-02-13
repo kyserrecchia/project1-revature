@@ -36,6 +36,7 @@ authRouter.post('/login', async (req, res) => {
                 isUser = true;
                 if (isUser) {
                     req.session.user = thisUser;
+                    console.log(thisUser);
                     res.json({
                         ...thisUser,
                         password: '',

@@ -1,9 +1,9 @@
 const dev = {
-  pokeContext: 'http://localhost:3001'
+  empContext: 'http://localhost:3001'
 }
 
 const prod = {
-  pokeContext: 'some aws url'
+  empContext: 'some aws url'
 }
 
 export let environment = dev;

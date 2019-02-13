@@ -19,6 +19,17 @@ app.use(bodyParser.json());
 // set up body parser to expose body to server on post requests
 app.use(bodyParser.urlencoded({extended: true}));
 
+// allow cross origins
+app.use((req, resp, next) => {
+    console.log(req.get('host'));
+    (process.env.ENVIRONMENT === 'produdction')
+      ? resp.header('Access-Control-Allow-Origin', process.env.DEMO_APP_URL)
+      : resp.header('Access-Control-Allow-Origin', `${req.headers.origin}`);
+    resp.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    resp.header('Access-Control-Allow-Credentials', 'true');
+    next();
+});
+
 app.use(methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
       const method = req.body._method;
@@ -46,24 +57,14 @@ const sess = {
 // any user data we want on
 app.use(session(sess));
 
-// allow cross origins
-app.use((req, resp, next) => {
-  (process.env.MOVIE_API_STAGE === 'prod')
-    ? resp.header('Access-Control-Allow-Origin', process.env.DEMO_APP_URL)
-    : resp.header('Access-Control-Allow-Origin', `http://localhost:5500`);
-  resp.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  resp.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-
 app.use(express.static(`${__dirname}/views`));
 
 app.use('/', authRouter);
 app.use('/reimbursements', reimRouter);
 app.use('/users', userRouter);
 
-app.listen(3000);
-console.log('application started on port: 3000');
+app.listen(3001);
+console.log('application started on port: 3001');
 
 
 

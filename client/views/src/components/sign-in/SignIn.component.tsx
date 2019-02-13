@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { pokeClient } from '../../axios/poke.client';
+import { empClient } from '../../axios/emp.client';
 
 interface ISignInState {
   credentials: {
@@ -13,76 +13,53 @@ interface ISignInState {
 interface ISignInProps extends RouteComponentProps<{}> {
 
 }
-export class SignInComponent extends React.Component<ISignInProps, ISignInState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      credentials: {
-        username: '',
-        password: ''
-      },
-      errorFeedback: ''
-    };
-  }
 
-  updateUsername = (event) => {
-    this.setState({
-      credentials: {
-        ...this.state.credentials,
-        username: event.target.value
-      }
-    });
-  }
-
-  updatePassword = (event) => {
-    this.setState({
-      credentials: {
-        ...this.state.credentials,
-        password: event.target.value
-      }
-    });
-  }
-
-  signIn = async (event) => {
-    event.preventDefault(); // prevent default form submission
-    try {
-      const res = await pokeClient.post('/auth/login', this.state.credentials);
-      console.log(res);
-      this.props.history.push('/home');
-    } catch (err) {
-      console.log(err);
-      this.setState({
-        errorFeedback: 'failed to sign in'
-      });
+export class SignInComponent extends React.Component<any, any> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            credentials: {
+                username: '',
+                password: ''
+            },
+            errorFeedback: ''
+        };
     }
 
-
-  }
-
-  // sign in using fetch instead of axios
-  signInFetch = async (event) => {
-    event.preventDefault(); // prevent default form submission
-    const res = await fetch('http://localhost:3000/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(this.state.credentials),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
-    });
-
-    if (res.status === 200) {
-      // window.location = '../manage-users/manage-users.html';
-      this.props.history.push('/home');
-    } else {
-      console.log('failed to log in');
-      this.setState({
-        errorFeedback: 'failed to sign in'
-      });
-      // document.getElementById('inputPassword').value = '';
-      // document.getElementById('error-message').innerText = 'failed to login';
+    updateUsername = (event) => {
+        this.setState({
+            credentials: {
+                ...this.state.credentials,
+                username: event.target.value
+            }
+        });
     }
-  }
+
+    updatePassword = (event) => {
+        this.setState({
+            credentials: {
+                ...this.state.credentials,
+                password: event.target.value
+            }
+        });
+    }
+
+    signIn = async (event) => {
+        event.preventDefault(); // prevent default form submission
+        try {
+            const res = await empClient.post('/login', this.state.credentials);
+            console.log(res);
+            let { role } = res.data;
+            let { username, password } = this.state.credentials;
+            this.props.login(username, password, role);
+            this.props.history.push('/');
+        } catch (err) {
+            console.log(err);
+            this.setState({
+                errorFeedback: 'failed to sign in'
+            });
+        }
+    }
 
   render() {
     const { credentials, errorFeedback } = this.state;
@@ -110,7 +87,7 @@ export class SignInComponent extends React.Component<ISignInProps, ISignInState>
             <div className='checkbox mb-3'>
                 <label>
                     <input type='checkbox' value='remember-me' /> Remember me
-  </label>
+                </label>
             </div>
             <button className='btn btn-lg btn-dark btn-block' type='submit'>Sign in</button>
             <p className='mt-5 mb-3 text-muted'>&copy; 2017-2018</p>

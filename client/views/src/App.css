@@ -43,6 +43,11 @@
   justify-content: center;
 }
 
+.background {
+    background: url(./assets/dr-brief.png) no-repeat;
+    background-position: 90vw 65vh;
+}
+
 /*****************************
   NAV
 *****************************/
@@ -100,7 +105,6 @@ nav {
 ul a:hover { 
     color: #0271CF !important; 
 }
-
 
 /***********************
 Clicker

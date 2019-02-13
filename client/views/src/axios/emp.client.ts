@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { environment } from '../environment';
 
-export const pokeClient = axios.create({
-  baseURL: environment.pokeContext,
+export const empClient = axios.create({
+  baseURL: environment.empContext,
   withCredentials: true
 });

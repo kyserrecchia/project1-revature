@@ -19,7 +19,7 @@ export class ProfileComponent extends React.Component {
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">1</th>
+                        <th scope="row"></th>
                         <td></td>
                         <td></td>
                         <td></td>
