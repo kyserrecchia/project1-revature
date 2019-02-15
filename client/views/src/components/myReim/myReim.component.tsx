@@ -14,7 +14,6 @@ export class MyReimComponent extends React.Component<any, any> {
                 description: '',
                 type: ''
             }
-            // errorInput: false
         };
     }
 
@@ -63,19 +62,11 @@ export class MyReimComponent extends React.Component<any, any> {
         });
     }
 
-    // () => {
-    //     if (this.state.form.type !== 0) {
-    //         this.setState({
-    //             errorInput: true
-    //         });
-    //     }
-    // });
 
     submit = async (event) => {
-        // if (this.state.form.type !== 0) {
             event.preventDefault(); // prevent default form submission
             try {
-                const res = await empClient.post('/reimbursements/submit', this.state.form);
+                await empClient.post('/reimbursements/submit', this.state.form);
                 // console.log(res.data);
                 this.state = {
                     form: {
@@ -90,16 +81,11 @@ export class MyReimComponent extends React.Component<any, any> {
             } catch (err) {
                 console.log(err);
             }
-        // } else {
-        //     this.setState({
-        //         errorInput: false
-        //     });
-        // }
             
     }
 
   render() {
-      const { form, errorInput } = this.state;
+      const { form } = this.state;
     return (
         <div>
             My Reimbursements
@@ -118,6 +104,9 @@ export class MyReimComponent extends React.Component<any, any> {
                 </thead>
                 <tbody>
                     { this.state.reimbursements.map(reim => { 
+                        reim.dateSubmitted = new Date(reim.dateSubmitted*1000).toLocaleDateString();
+                        reim.dateResolved = reim.dateResolved !== 0 ? new Date(reim.dateResolved*1000).toLocaleDateString() : 'NA';
+                        reim.resolver = reim.dateResolved !== 'NA' ? reim.resolver : 'NA';
                         return <tr key={reim.reimbursementId}>{
                             <>
                             <th scope="row">{reim.reimbursementId}</th>

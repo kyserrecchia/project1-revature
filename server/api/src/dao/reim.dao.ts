@@ -17,13 +17,14 @@ export class ReimDao {
                         left join reimbursementstatus on reimbursement.status = reimbursementstatus.statusid
                         left join "user"as authorname  on reimbursement.author = authorname.userid
                         left join"user" as resolvername on reimbursement.resolver = resolvername.userid
-                        WHERE reimbursementstatus.statusid = $1;`,
+                        WHERE reimbursementstatus.statusid = $1
+                ORDER BY reimbursement.datesubmitted;`,
                 [status]
             );
             return result.rows.map(reim => {
                 return {
                     reimbursementId: reim.reimbursementid,
-                    author: reim.author,
+                    author: reim.authorname,
                     amount: reim.amount,
                     dateSubmitted: reim.datesubmitted,
                     dateResolved: reim.dateresolved,
@@ -50,7 +51,8 @@ export class ReimDao {
                         left join reimbursementtype on reimbursement."type" = reimbursementtype.typeid
                         left join reimbursementstatus on reimbursement.status = reimbursementstatus.statusid
                         left join "user"as authorname  on reimbursement.author = authorname.userid
-                        left join"user" as resolvername on reimbursement.resolver = resolvername.userid;`
+                        left join"user" as resolvername on reimbursement.resolver = resolvername.userid
+                ORDER BY reimbursement.datesubmitted;`
             );
             return result.rows.map(reim => {
                 return {
@@ -83,7 +85,8 @@ export class ReimDao {
                     left join reimbursementstatus on reimbursement.status = reimbursementstatus.statusid
                     left join "user"as authorname  on reimbursement.author = authorname.userid
                     left join"user" as resolvername on reimbursement.resolver = resolvername.userid
-                WHERE reimbursement.reimbursementid = $1`,
+                WHERE reimbursement.reimbursementid = $1
+                ORDER BY reimbursement.datesubmitted;`,
                 [id]
             );
             const reim = result.rows[0]; // there should only be 1 record
@@ -120,7 +123,8 @@ export class ReimDao {
                     left join reimbursementstatus on reimbursement.status = reimbursementstatus.statusid
                     left join "user"as authorname  on reimbursement.author = authorname.userid
                     left join"user" as resolvername on reimbursement.resolver = resolvername.userid
-                WHERE author = $1;`,
+                WHERE author = $1
+                ORDER BY reimbursement.datesubmitted;`,
                 [author]
             );
             return result.rows.map(reim => {

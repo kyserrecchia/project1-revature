@@ -81,12 +81,14 @@ export class ReimStatusComponent extends React.Component<any, any> {
                 { 
                     this.props.status !== 1 ? 
                         this.props.reims.map(reim => { 
-                            const d = new Date(reim.dateSubmitted*1000)
+                            reim.dateSubmitted = new Date(reim.dateSubmitted*1000).toLocaleDateString();
+                            reim.dateResolved = reim.dateResolved !== 0 ? new Date(reim.dateResolved*1000).toLocaleDateString() : 'NA';
+                            reim.resolver = reim.dateResolved !== 'NA' ? reim.resolver : 'NA';
                             return <tr key={reim.reimbursementId}>{
                                 <>
                                 <th scope="row">{reim.reimbursementId}</th>
                                 <td>{reim.author}</td> 
-                                <td>{d.toLocaleDateString()}</td>
+                                <td>{reim.dateSubmitted}</td>
                                 <td>{reim.dateResolved}</td>
                                 <td>{reim.amount}</td>
                                 <td>{reim.description}</td>
@@ -97,6 +99,9 @@ export class ReimStatusComponent extends React.Component<any, any> {
                             }</tr>
                         }) 
                         : this.props.reims.map(reim => {
+                            reim.dateSubmitted = new Date(reim.dateSubmitted*1000).toLocaleDateString();
+                            reim.dateResolved = reim.dateResolved !== 0 ? new Date(reim.dateResolved*1000).toLocaleDateString() : 'NA';
+                            reim.resolver = reim.dateResolved !== 'NA' ? reim.resolver : 'NA';
                             return <tr key={reim.reimbursementId}>{
                                         <>
                                         <th scope="row">{reim.reimbursementId}</th>

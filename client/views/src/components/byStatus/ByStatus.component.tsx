@@ -19,7 +19,7 @@ export class ByStatusComponent extends React.Component<any, any> {
     getReims = async () => {
         try {
             const res = await empClient('/reimbursements/status/' + this.state.statChoice);
-            console.log(res);
+            console.log(res.data);
             this.setState({
                 reimbursements: res.data
             });
