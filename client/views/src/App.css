@@ -44,8 +44,11 @@
 }
 
 .background {
-    background: url(./assets/dr-brief.png) no-repeat;
-    background-position: 90vw 65vh;
+    background: url(./assets/dr-brief.png) no-repeat, 
+        url(./assets/hoipoicapsule1.png) no-repeat,
+        url(./assets/hoipoicapsule2.png) no-repeat,
+        url(./assets/hoipoicapsule3.png) no-repeat;
+    background-position: 90vw 65vh, 1vw 43vh, 1vw 60vh, 1vw 78vh;
 }
 
 /*****************************

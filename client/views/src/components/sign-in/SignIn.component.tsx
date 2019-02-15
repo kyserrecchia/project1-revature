@@ -66,7 +66,7 @@ export class SignInComponent extends React.Component<any, any> {
     return (
         <form className='form-signin' onSubmit={this.signIn} >
             <img className='mb-4' src='/docs/4.2/assets/brand/bootstrap-solid.svg' alt='' width='72' height='72' />
-            <h1 className='h3 mb-3 font-weight-normal'>Please sign in</h1>
+            <h1 className='h3 mb-3 font-weight-normal text-center'>Sign In</h1>
             <label htmlFor='inputUsername' className='sr-only'>Username</label>
             <input type='text'
                 id='inputUsername'
@@ -84,13 +84,8 @@ export class SignInComponent extends React.Component<any, any> {
                 onChange={this.updatePassword}
                 required />
             <p id='error-message'>{errorFeedback}</p>
-            <div className='checkbox mb-3'>
-                <label>
-                    <input type='checkbox' value='remember-me' /> Remember me
-                </label>
-            </div>
             <button className='btn btn-lg btn-dark btn-block' type='submit'>Sign in</button>
-            <p className='mt-5 mb-3 text-muted'>&copy; 2017-2018</p>
+            <p className='mt-5 mb-3'>&copy; age 750-795</p>
         </form>
     );
   }

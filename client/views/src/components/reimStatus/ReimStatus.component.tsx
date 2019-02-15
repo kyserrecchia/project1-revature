@@ -18,7 +18,10 @@ export class ReimStatusComponent extends React.Component<any, any> {
 
     edit = (e) => {
         this.setState({
-            editing: true
+            editing: true,
+            body: {
+                reimbursementId: +(e.target.id-1)
+            }
         })
 
     }
@@ -61,8 +64,7 @@ export class ReimStatusComponent extends React.Component<any, any> {
     
   render() {
     return (
-      <div>
-        Reimbursements By Status        
+      <div>       
         <table className='table'>
                 <thead>
                     <tr>
@@ -111,7 +113,7 @@ export class ReimStatusComponent extends React.Component<any, any> {
                                         <td>{reim.amount}</td>
                                         <td>{reim.description}</td>
                                         <td>{reim.type}</td>
-                                        {this.state.editing ?
+                                        {this.state.editing  && this.state.body.reimbursementId === +reim.reimbursementId ?
                                             <td><select id={reim.reimbursementId} 
                                                     onChange={this.getVal} className="custom-select">
                                                 <option value="1">Pending</option>
@@ -122,20 +124,20 @@ export class ReimStatusComponent extends React.Component<any, any> {
                                             : <td>{reim.status}</td>
                                         } 
                                         <td>{reim.resolver}</td>
-                                        { !this.state.editing ? 
+                                        { this.state.editing && this.state.body.reimbursementId === +reim.reimbursementId ?
+                                            <td>
+                                            <button className="btn btn-dark" 
+                                                id={reim.reimbursementId+2} onClick={this.submit}>
+                                                Submit
+                                            </button>
+                                            </td>  
+                                            : 
                                             <td>
                                                 <button className="btn btn-dark" 
                                                     id={reim.reimbursementId+1} onClick={this.edit}>
                                                     Edit
                                                 </button>
-                                            </td>   
-                                            : 
-                                            <td>
-                                                <button className="btn btn-dark" 
-                                                    id={reim.reimbursementId+2} onClick={this.submit}>
-                                                    Submit
-                                                </button>
-                                            </td>
+                                            </td> 
                                         }</>
                                     }</tr>
                         })
