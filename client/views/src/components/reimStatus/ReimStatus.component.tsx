@@ -39,12 +39,14 @@ export class ReimStatusComponent extends React.Component<any, any> {
         })
 
         try {
-            empClient.patch('/reimbursements', this.state.body);
+            empClient.patch('/reimbursements', this.state.body).then(
+                ()=> {
+                    this.props.getReims();
+                });
+            
         } catch (err) {
             console.log(err);
-        } finally {
-            this.props.getReims();
-        }
+        } 
     }
 
     getVal = (e) => {
