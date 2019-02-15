@@ -7,7 +7,7 @@ export class ByStatusComponent extends React.Component<any, any> {
     constructor(props) {
         super(props);
         this.state = {
-            statChoice: 2,
+            statChoice: 1,
             reimbursements: []
         }
     }
@@ -27,11 +27,11 @@ export class ByStatusComponent extends React.Component<any, any> {
     changeStatus = async (e) => {
         console.log(e.target.id);
         await this.setState({
-            statChoice: e.target.id
+            statChoice: +e.target.id
         });
         try {
             const res = await empClient('/reimbursements/status/' + this.state.statChoice);
-            console.log(res);
+            console.log(res.data);
             this.setState({
                 reimbursements: res.data
             });
@@ -45,7 +45,7 @@ export class ByStatusComponent extends React.Component<any, any> {
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav">
+                    <ul className="navbar-nav pointerUl">
                         <li className={"nav-link "+(this.state.statChoice === 1 ? "active" : null)}>
                             <a className="nav-item" id="1" onClick={this.changeStatus}>Pending</a>
                         </li>
@@ -59,7 +59,7 @@ export class ByStatusComponent extends React.Component<any, any> {
                 </div>
             </nav>
             <div>
-                <ReimStatusComponent reims={this.state.reimbursements}/>
+                <ReimStatusComponent status={this.state.statChoice} reims={this.state.reimbursements} />
             </div>
       </div>
     );

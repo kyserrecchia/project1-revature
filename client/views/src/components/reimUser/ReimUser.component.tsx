@@ -7,7 +7,8 @@ export class ReimUserComponent extends React.Component<any, any> {
         super(props);
         this.state = {
             userId: this.props.state.id,
-            reimbursements: []
+            reimbursements: [],
+            editing: false
         };
     }
 
@@ -27,11 +28,25 @@ export class ReimUserComponent extends React.Component<any, any> {
         this.getReimbursements();
     }
 
+    edit = (e) => {
+        console.log(e.target.data);
+        this.setState({
+            editing: true
+        });
+    }
+    
+    submit = () => {
+
+        this.setState({
+            editing: false
+        });
+    }
+
     render() {
         return (
             <div>
-                Reimbursements By User
-        <table className='table'>
+                Reimbursements
+                <table className='table'>
                     <thead>
                         <tr>
                             <th>Id #</th>
@@ -46,21 +61,23 @@ export class ReimUserComponent extends React.Component<any, any> {
                         </tr>
                     </thead>
                     <tbody>
-                    {this.state.reimbursements.map(reim => { 
-                        return <tr key={reim.reimbursementId}>{
-                            <>
-                            <th scope="row">{reim.reimbursementId}</th>
-                            <td>{reim.author}</td> 
-                            <td>{reim.dateSubmitted}</td>
-                            <td>{reim.dateResolved}</td>
-                            <td>{reim.amount}</td>
-                            <td>{reim.description}</td>
-                            <td>{reim.type}</td>
-                            <td>{reim.status}</td>
-                            <td>{reim.resolver}</td>
-                            </>
-                        }</tr>
-                    })}
+                    {
+                        this.state.reimbursements.map(reim => { 
+                            return <tr key={reim.reimbursementId}>{
+                                <>
+                                <th scope="row">{reim.reimbursementId}</th>
+                                <td>{reim.author}</td> 
+                                <td>{reim.dateSubmitted}</td>
+                                <td>{reim.dateResolved}</td>
+                                <td>{reim.amount}</td>
+                                <td>{reim.description}</td>
+                                <td>{reim.type}</td>
+                                <td>{reim.status}</td>
+                                <td>{reim.resolver}</td>
+                                </>
+                            }</tr>
+                        })
+                    }
                     </tbody>
                 </table>
             </div>

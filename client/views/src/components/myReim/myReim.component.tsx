@@ -7,15 +7,20 @@ export class MyReimComponent extends React.Component<any, any> {
     constructor(props){
         super(props);
         this.state = {
-            userId: this.props.state.id,
-            reimbursements: []
+            reimbursements: [],
+            form: {
+                userId: this.props.state.id,
+                amount: '',
+                description: '',
+                type: ''
+            }
+            // errorInput: false
         };
     }
 
     getReimbursements = async () => {
-        const { userId } = this.props.state;
         try {
-            const res = await empClient.get('/reimbursements/author/userId/' + this.state.userId);
+            const res = await empClient.get('/reimbursements/author/userId/' + this.state.form.userId);
             // console.log(res.data);
             this.setState({
                 reimbursements: res.data
@@ -29,7 +34,72 @@ export class MyReimComponent extends React.Component<any, any> {
         this.getReimbursements();
     }
 
+    
+    updateAmount = (event) => {
+        this.setState({
+            form: {
+                ...this.state.form,
+                amount: event.target.value
+            }
+        });
+    }
+
+    updateDescription = (event) => {
+        this.setState({
+            form: {
+                ...this.state.form,
+                description: event.target.value
+            }
+        });
+    }
+
+    updateType = (event) => {
+        this.setState({
+            form: {
+                ...this.state.form,
+                type: event.target.value
+            }
+            // errorInput: true
+        });
+    }
+
+    // () => {
+    //     if (this.state.form.type !== 0) {
+    //         this.setState({
+    //             errorInput: true
+    //         });
+    //     }
+    // });
+
+    submit = async (event) => {
+        // if (this.state.form.type !== 0) {
+            event.preventDefault(); // prevent default form submission
+            try {
+                const res = await empClient.post('/reimbursements/submit', this.state.form);
+                // console.log(res.data);
+                this.state = {
+                    form: {
+                        ...this.state.form,
+                        amount: '',
+                        description: '',
+                        type: ''
+                    }
+                };
+                this.getReimbursements();
+                
+            } catch (err) {
+                console.log(err);
+            }
+        // } else {
+        //     this.setState({
+        //         errorInput: false
+        //     });
+        // }
+            
+    }
+
   render() {
+      const { form, errorInput } = this.state;
     return (
         <div>
             My Reimbursements
@@ -63,6 +133,51 @@ export class MyReimComponent extends React.Component<any, any> {
                     })}
                 </tbody>
             </table>
+            <form id="subForm" onSubmit={this.submit}>
+                <div className="form-row">
+                    <div className="col-3">
+                        {/*  empty for spacing */}
+                    </div>
+                    <div className="col-3">
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="Description"
+                            value={form.description}
+                            onChange={this.updateDescription}
+                            required
+                        />
+                    </div>
+                    <div className="col-2">
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="Amount"
+                            value={form.amount}
+                            onChange={this.updateAmount}
+                            required
+                        />
+                    </div>
+                    <div className="col-2">
+                            <select 
+                                className="custom-select mr-sm-2" 
+                                id="inlineFormCustomSelect"
+                                value={form.type}
+                                onChange={this.updateType}
+                                required
+                            >
+                                    <option value="0">Type: </option>
+                                    <option value="1">Lodging</option>
+                                    <option value="2">Travel</option>
+                                    <option value="3">Food</option>
+                                    <option value="4">Other</option>
+                            </select>
+                    </div>
+                    <div className="col-auto">
+                        <button type="submit" className="btn btn-dark mb-2">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
     );
   }

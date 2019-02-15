@@ -9,7 +9,6 @@ import { ReimComponent } from './components/reim/Reim.component';
     import { MyReimComponent } from './components/myReim/myReim.component';
     import { ReimStatusComponent } from './components/reimStatus/ReimStatus.component';
     import { ReimUserComponent } from './components/reimUser/ReimUser.component';
-    import { SubmitReimComponent } from './components/submitReim/SubmitReim.component';
 import { UsersComponent } from './components/users/Users.component';
 import { url } from 'inspector';
 import { ByStatusComponent } from './components/byStatus/ByStatus.component';
@@ -54,7 +53,6 @@ class App extends Component<any, any> {
                         <Route path='/my' render={(props) => <MyReimComponent {...props} state={this.state}/>} />
                         <Route path='/by-status' render={(props) => <ByStatusComponent {...props} state={this.state}/>} />
                         <Route path='/by-user' render={(props) => <ReimUserComponent {...props} state={this.state}/>} />
-                        <Route path='/submit' render={(props) => <SubmitReimComponent {...props} state={this.state}/>} />
                     </div>
                 </div>
             </BrowserRouter>

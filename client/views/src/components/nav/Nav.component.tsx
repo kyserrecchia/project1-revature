@@ -30,7 +30,6 @@ export class NavComponent extends React.Component<any, any> {
                                 <a className='nav-link dropdown-toggle pointer' id='examples-dropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Reimbursements</a>
                                 <div className='dropdown-menu' aria-labelledby='examples-dropdown'>
                                     <div className='dropdown-item'><Link to='/my' className='unset-anchor nav-link active'>My Reimbursements</Link></div>
-                                    <div className='dropdown-item'><Link to='/submit' className='unset-anchor nav-link active'>Submit</Link></div>
                                     {(this.props.state.role === 'Admin') || (this.props.state.role === 'Finance-Manager') ?
                                         <>
                                         <div className='dropdown-item'><Link to='/by-status' className='unset-anchor nav-link active'>By Status</Link></div>

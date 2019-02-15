@@ -67,7 +67,7 @@ reimRouter.patch('', [
     authMiddleware,
     async (req, res) => {
         try {
-            // console.log(req.body);
+            console.log(req.body);
             const thisReim = await reim.update(req.body);
             res.json(thisReim);
         } catch (err) {

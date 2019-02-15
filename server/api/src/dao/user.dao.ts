@@ -7,7 +7,7 @@ export class UserDao {
         const client = await connectionPool.connect();
         try {
             const result = await client.query(
-                'SELECT * FROM "user"'
+                'SELECT * FROM "user" INNER JOIN "role" on "user"."role"="role".roleid;'
             );
             return result.rows.map(sqlUser => {
                 return {

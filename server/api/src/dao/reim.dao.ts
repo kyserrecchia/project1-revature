@@ -166,9 +166,9 @@ export class ReimDao {
     async update(reqbody) {
         const client = await connectionPool.connect();
         const querySQL = `UPDATE reimbursement set
-                dateresolved = $1, "type" = $2
+                dateresolved = $1, status = $2
                 WHERE reimbursementid = $3 returning *;`;
-        const querySQLParams = [reqbody.dateresolved, reqbody.type, reqbody.reimbursementid];
+        const querySQLParams = [Math.floor(Date.now() / 1000), reqbody.status, reqbody.reimbursementId];
 
         // TODO
         // instead, query for userbyid and insert old values if any new value null - put inside try below
