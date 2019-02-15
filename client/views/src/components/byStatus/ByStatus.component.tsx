@@ -13,6 +13,10 @@ export class ByStatusComponent extends React.Component<any, any> {
     }
 
     async componentDidMount () {
+        await this.getReims();
+    }
+
+    getReims = async () => {
         try {
             const res = await empClient('/reimbursements/status/' + this.state.statChoice);
             console.log(res);
@@ -22,6 +26,7 @@ export class ByStatusComponent extends React.Component<any, any> {
         } catch(err) {
             console.log(err);
         }
+       
     }
 
     changeStatus = async (e) => {
@@ -59,7 +64,11 @@ export class ByStatusComponent extends React.Component<any, any> {
                 </div>
             </nav>
             <div>
-                <ReimStatusComponent status={this.state.statChoice} reims={this.state.reimbursements} />
+                <ReimStatusComponent 
+                    status={this.state.statChoice} 
+                    reims={this.state.reimbursements} 
+                    getReims={this.getReims}
+                    />
             </div>
       </div>
     );

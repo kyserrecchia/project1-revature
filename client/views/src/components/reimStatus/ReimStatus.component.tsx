@@ -12,16 +12,26 @@ export class ReimStatusComponent extends React.Component<any, any> {
             },
             status: 1,
             editing: false,
-            idEdit: 0
+            val: 0
         }
     }
 
-    patchReim = async (event) => {
-        event.preventDefault(); // prevent default form submission
+    edit = (e) => {
+        this.setState({
+            editing: true
+        })
+
+    }
+
+    submit = async (e) => {
+        e.preventDefault(); // prevent default form submission
+        this.setState({
+            editing: false
+        })
         await this.setState({
             body: {
-                reimbursementId: +event.target.id,
-                status: +event.target.value
+                reimbursementId: +(e.target.id-2),
+                status: this.state.val
             },
         })
 
@@ -30,25 +40,14 @@ export class ReimStatusComponent extends React.Component<any, any> {
         } catch (err) {
             console.log(err);
         } finally {
-            this.setState(this.state);
+            this.props.getReims();
         }
     }
 
-    edit = (e) => {
+    getVal = (e) => {
         this.setState({
-            editing: true,
-            idEdit: +(e.target.id-1)
+            val: +e.target.value
         })
-        console.log(e.target.id);
-
-    }
-
-    submit = (e) => {
-        this.setState({
-            editing: false,
-            idEdit: +(e.target.id-2)
-        })
-        console.log(e.target.id);
     }
 
     componentDidUpdate() {
@@ -82,11 +81,12 @@ export class ReimStatusComponent extends React.Component<any, any> {
                 { 
                     this.props.status !== 1 ? 
                         this.props.reims.map(reim => { 
+                            const d = new Date(reim.dateSubmitted*1000)
                             return <tr key={reim.reimbursementId}>{
                                 <>
                                 <th scope="row">{reim.reimbursementId}</th>
                                 <td>{reim.author}</td> 
-                                <td>{reim.dateSubmitted}</td>
+                                <td>{d.toLocaleDateString()}</td>
                                 <td>{reim.dateResolved}</td>
                                 <td>{reim.amount}</td>
                                 <td>{reim.description}</td>
@@ -107,7 +107,8 @@ export class ReimStatusComponent extends React.Component<any, any> {
                                         <td>{reim.description}</td>
                                         <td>{reim.type}</td>
                                         {this.state.editing ?
-                                            <td><select id={reim.reimbursementId} className="custom-select">
+                                            <td><select id={reim.reimbursementId} 
+                                                    onChange={this.getVal} className="custom-select">
                                                 <option value="1">Pending</option>
                                                 <option value="2">Approved</option>
                                                 <option value="3">Denied</option>
