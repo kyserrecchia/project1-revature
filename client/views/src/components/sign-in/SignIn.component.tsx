@@ -85,7 +85,7 @@ export class SignInComponent extends React.Component<any, any> {
                 required />
             <p id='error-message'>{errorFeedback}</p>
             <button className='btn btn-lg btn-dark btn-block' type='submit'>Sign in</button>
-            <p className='mt-5 mb-3'>&copy; age 750-795</p>
+            <p className='mt-5 mb-3'>&copy; Age 750-795</p>
         </form>
     );
   }

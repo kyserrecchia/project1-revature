@@ -45,7 +45,7 @@ export class NavComponent extends React.Component<any, any> {
                                 </li> : console.log('heyo')
                             }  
                             <li className='nav-item active'>
-                                <Link to='/logout' className='unset-anchor nav-link'>Logout</Link>
+                                <Link to='/sign-in' className='unset-anchor nav-link'>Logout</Link>
                             </li>
                         </> : <Redirect to='/sign-in' />
                     }
